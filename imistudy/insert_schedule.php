@@ -1,5 +1,5 @@
 <?php
- require('cal.inc');
+ require('cal.inc.php');
 
  function selectYear($start, $end, $cur=''){
 	 if($cur) $cur= date('Y');
