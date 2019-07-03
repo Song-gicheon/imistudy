@@ -15,7 +15,7 @@
 
  echo $today;
  // 오늘이 포함된 모든 계획은 보여줄 수 있도록 한다.
- $sql= "select schedule, s_date, e_date, content, team 
+ $sql= "select id, schedule, s_date, e_date, content, team 
 		from schedules
 		where '$today'>=DATE(s_date) and '$today'<=DATE(e_date);";
 
@@ -27,7 +27,10 @@
  else{
 	while(!$ok->EOF){
 		for($i=0, $max=$ok->fieldCount(); $i<$max; $i++){
-			echo $ok->fields[$i].' ';
+			// 각 일정을 클릭하면 변경할 수 있도록 한다.
+			// 이 때 출력된 정보도 같이 전송 
+
+			echo "<div>".$ok->fields[$i]."</div>";
 			// 일정 : xxx
 			// 기간 : x:x:x ~ x:x:x
 			// 내용 : xxxxx...

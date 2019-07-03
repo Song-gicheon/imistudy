@@ -3,8 +3,6 @@
  include('../../adodb5/adodb.inc.php');
  $db = newADOConnection('mysqli');
 
- $db->debug = true;
-
  $db->connect("localhost", "root", "Kdkdldpadkdl123$%^", "study");
 
  $pagename = basename($_SERVER['PHP_SELF']); 
@@ -119,7 +117,6 @@
 		 if($year==$y && $month==$m && $day==date('j')){
 		 }
 		 // 각 날짜마다 클릭해서 일정 확인 가능. 
-		 // "select_schedule.php?year=$year&month=$month&day=$day"
 		 echo "<font color='$style' padding='3'>$day</font>";
 
 		 // 음력 표기일 ( 월 수 금 )
@@ -127,6 +124,19 @@
 			 echo "<font class='luna' color='black' padding='4' align='left'></font>";
 			 $lunc = false;
 		 }
+		 // 달력상에서 가장 먼저 입력된 일일 일정을 보여준다. 
+		 $sql_select = "SELECT schedule team FROM schedules
+						WHERE '$today'>=DATE(s_date) and '$today'<=DATE(e_date) limit 1;";
+
+		 $ok = $db->execute($sql_select);
+				 
+		 if($ok == false){
+			 die("failed");
+		 }
+		 else{
+			echo $ok->fields[$i];
+		 }
+
 		 $day++;
 	 }
 	 echo "</td>";
