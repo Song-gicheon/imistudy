@@ -52,7 +52,7 @@
  $last_day = date('w', mktime(0,0,0, $month, $max_date, $year));
 
 ?>
- <script src='http://code.jquery.com/jquery-1.10.2.js'></script>
+ <script src='https://code.jquery.com/jquery-1.10.2.js'></script>
  <script>
 </script>
 
@@ -105,6 +105,9 @@
 	 echo "<td class='select_date' style='table-layout:fixed;' align='left' valign='top'
 	 onclick='javascript:location.href=\"select_schedule.php?year=$year&month=$month&day=$day\"'>";
 	 if(!(($i==1 && $j< $start_day)||($i==$total_week && $j>$last_day))){
+		 
+		 if(strlen($day) == 1) $day = "0".$day;
+
 		 if($j==0){
 			 $style = 'red';
 		 }else if($j==6){
@@ -119,11 +122,16 @@
 		 // 각 날짜마다 클릭해서 일정 확인 가능. 
 		 echo "<font color='$style' padding='3'>$day</font>";
 
+		 $today = "$year-$month-$day";
+		 
 		 // 음력 표기일 ( 월 수 금 )
 		 if($lunc == true){
-			 echo "<font class='luna' color='black' padding='4' align='left'></font>";
+			 $query = "select lunar_date from lunar_data where solar_date=".$year.$month.$day;
+			 $rs = $db->execute($query);
+			 echo "<br><font style='font-size:8; font-color:green;' class='luna' color='black' padding='4' align='left'>".$rs->fields[0]."</font>";
 			 $lunc = false;
 		 }
+
 		 // 달력상에서 가장 먼저 입력된 일일 일정을 보여준다. 
 		 $sql_select = "SELECT schedule team FROM schedules
 						WHERE '$today'>=DATE(s_date) and '$today'<=DATE(e_date) limit 1;";
@@ -134,7 +142,7 @@
 			 die("failed");
 		 }
 		 else{
-			echo $ok->fields[$i];
+			 echo "<br>".$ok->fields[0];
 		 }
 
 		 $day++;

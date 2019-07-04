@@ -2,7 +2,6 @@
  require('cal.inc.php');
 
  function selectYear($start, $end, $cur=''){
-	 if($cur) $cur= date('Y');
 	 for($start; $start<$end+1; $start++){
 		 if($start == $cur){
 			 $date_year.= "<option value= '$start' selected>$start</option>\n";
@@ -14,7 +13,6 @@
  }
 
  function selectMonth($cur = ""){
-	 $month = date('m');
 	 for($m=1; $m<=12; $m++){
 		 if(strlen($m) == 1) $m="0".$m;
 		 if($m == $cur){
@@ -26,7 +24,7 @@
 	 return $date_month;
  }
 
- function selectDay($cur, $max_date){
+ function selectDay($cur='', $max_date){
 	 for($d=1; $d<=$max_date; $d++){
 		if(strlen($d) == 1) $d = "0".$d;
 		if($d == $cur){
@@ -39,7 +37,7 @@
 	 return $date_day;
  }
 
- function selectTime($cur){
+ function selectTime($cur=''){
 	 for($t=1; $t<=24; $t++){
 		 if($t == $cur){
 			 $date_time .= "<option value='$t' selected>$t</option>";
@@ -64,20 +62,23 @@
  <h1>Add Event</h1>
 <?php
 
+ $y = date('Y');
+ $m = date('m');
+ $d = date('d');
  echo "<form class='add_event' action='insert.php' method='post'>";
  echo "<span id='start_time' class='time_box'>";
- echo "<select name='s_y'>".selectYear('2015', '2050', $y)."</select>";
- echo "<select name='s_m'>".selectMonth($m)."</select>";
- echo "<select name='s_d'>".selectDay($d, $max_date)."</select>";
+ echo "<select name='s_y'>".selectYear('2015', '2050', date('Y'))."</select>";
+ echo "<select name='s_m'>".selectMonth(date('m'))."</select>";
+ echo "<select name='s_d'>".selectDay(date('d'), $max_date)."</select>";
  echo "<select name='s_t'>".selectTime(date('H'))."</select>";
  echo "</sapn>";
  
  echo "&nbsp; ~ &nbsp;";
 
  echo "<span id='end_time' class='time_box'>";
- echo "<select name='e_y'>".selectYear('2015', '2050', $y)."</select>";
- echo "<select name='e_m'>".selectMonth($m)."</select>";
- echo "<select name='e_d'>".selectDay($d, $max_date)."</select>";
+ echo "<select name='e_y'>".selectYear('2015', '2050', date('Y'))."</select>";
+ echo "<select name='e_m'>".selectMonth(date('m'))."</select>";
+ echo "<select name='e_d'>".selectDay(date('d'), $max_date)."</select>";
  echo "<select name='e_t'>".selectTime(date('H'))."</select>";
  echo "</span>";
 
@@ -100,9 +101,9 @@
  
  <span id='alarm_time' class='time_box' name='alarm_box' disabled=''>
 <?php
- echo "<select name='a_y'>".selectYear('2015', '2050', $y)."</select>";
- echo "<select name='a_m'>".selectMonth($m)."</select>";
- echo "<select name='a_d'>".selectDay($d, $max_date)."</select>";
+ echo "<select name='a_y'>".selectYear('2015', '2050', date('Y'))."</select>";
+ echo "<select name='a_m'>".selectMonth(date('m'))."</select>";
+ echo "<select name='a_d'>".selectDay(date('d'), $max_date)."</select>";
  echo "<select name='a_t'>".selectTime(date('H'))."</select>";
  echo "</span>";
 ?>
