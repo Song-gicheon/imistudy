@@ -15,5 +15,6 @@
 
  $ok = $db->execute($sql);
  
+ Header("Location:select_schedule.php");
 ?>
  

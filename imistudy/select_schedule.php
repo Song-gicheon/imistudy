@@ -44,34 +44,17 @@
 ?> 
 		<script type='text/javascript'>
 	
-		var data = new Array(6);
-		data[0]='<?php echo $ok->fields[1]; ?>';
-		data[1]='<?php echo $ok->fields[2]; ?>';
-		data[2]='<?php echo $ok->fields[3]; ?>';
-		data[3]='<?php echo $ok->fields[4]; ?>';
-		data[4]='<?php echo $ok->fields[5]; ?>';
-		data[5]='<?php echo $ok->fields[6]; ?>';
-		
-		$(document).ready(function(){
-		for(var i=0; i<6; i++){
-			input[i] = document.createElemen("input");
-			$(input[i]).attr("type","hidden");
-			$(input[i]).attr("name","data[]");
-			$(input[i]).attr("value",data[i]);
-		}
-		$('.form').appendChild(input[i]);
-		});
-		
-	function upd(form){
-		form.action = 'update_schedule.php';
-		form.submit();
-	}
+			function upd(form){
+				form.action = 'update_schedule.php';
+				form.submit();
+			}
 
-	function del(f){
-		f.action = 'delete_schedule.php';
-		f.submit();
-	}
+			function del(f){
+				f.action = 'delete_schedule.php';
+				f.submit();
+			}
 		</script>
+
 		<form name='form' class='form' method='post'>
 			<input type='hidden' name='sch_id' value='<?php echo $ok->fields[0]; ?>'/>
 			<input type='button' value='Update' onclick='upd(this.form);'/>

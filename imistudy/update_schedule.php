@@ -83,50 +83,47 @@
  echo "</span>";
 
 ?>
-
-  <script language= 'javascript'>
- function alarm_on(){
-	 var chk = document.getElementById('chk_alarm');
-	 var box = document.getElementById('alarm_time');
-	 if(chk.checked == true)
-		 box.disabled = false;
-	 else
-		 box.disabled = true;
- }
- </script>
-
- <!-- 일정 제목 -->
- <input type='text' name='sche_name' placeholder='<?php echo $schedule; ?>'/> 
+<div>
+	<div>
+		<input type='text' name='sche_name'/> 
+	</div>
+	<div>
+		<textarea cols='60' rows'50' autofocus requiredwrap='hard'
+			placeholder='write.' name='in_schedule'></textarea>
+	</div>
+	<div id='alarm_set'>
+		<input type='checkbox' id='chk_alarm' value='alram' onClick="alarm_on()">Alarm
  
- <!-- 일정 내용 -->
- <textarea cols='60' rows'50' autofocus requiredwrap='hard'
- placeholder='<?php echo $content; ?>' name='in_schedule'></textarea>
-
- 
-  <script language= 'javascript'>
- function alarm_on(){
-	 var chk = document.getElementById('chk_alarm');
-	 var box = document.getElementById('alarm_time');
-	 if(chk.checked == true)
-		 box.disabled = false;
-	 else
-		 box.disabled = true;
- }
- </script>
- <!-- 알람 체크 -->
-<div id='alarm_set'>
-<input type='checkbox' id='chk_alarm' value='alram' onClick="alarm_on()">Alarm
- 
- <span id='alarm_time' class='time_box' name='alarm_box' disabled=''>
+		 <span id='alarm_time' class='time_box' name='alarm_box'>
 <?php
- echo "<select name='a_y'>".selectYear('2015', '2050', $y)."</select>";
- echo "<select name='a_m'>".selectMonth($m)."</select>";
- echo "<select name='a_d'>".selectDay($d, $max_date)."</select>";
- echo "<select name='a_t'>".selectTime(date('H'))."</select>";
- echo "</span>";
+	 echo "<select id='ay' name='a_y' disabled>".selectYear('2015', '2050', date('Y'))."</select>";
+	 echo "<select id='am' name='a_m' disabled>".selectMonth(date('m'))."</select>";
+	 echo "<select id='ad' name='a_d' disabled>".selectDay(date('d'), $max_date)."</select>";
+	 echo "<select id='ah' name='a_t' disabled>".selectTime(date('H'))."</select>";
+	 echo "</span>";
 ?>
+	</div>
+	<input type='submit' value='submit'> 
 </div>
-
-<input type='submit' value='submit'> 
 </form>
 </div>
+ <script language= 'javascript'>
+	var chk = document.getElementById('chk_alarm');
+	var ay = document.getElementById('ay');
+	var am = document.getElementById('am');
+	var ad = document.getElementById('ad');
+	var ah = document.getElementById('ah');
+	 function alarm_on(){
+		 if(chk.checked == true){
+			 ay.disabled = false;
+			 am.disabled = false;
+			 ad.disabled = false;
+			 ah.disabled = false;
+		 }else{
+			 ay.disabled = true;
+			 am.disabled = true;
+			 ad.disabled = true;
+			 ah.disabled = true;
+		 }
+	 }
+ </script>

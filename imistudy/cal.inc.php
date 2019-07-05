@@ -59,6 +59,7 @@
  <style>
  .schedule_box{
 	float:right;
+	margin:20px;
  }
  </style>
 
@@ -102,8 +103,11 @@
 <?php
  $lunc = false;
  for($j=0; $j<7; $j++){
+	 
+	 // 각 날짜마다 클릭해서 일정 확인 가능. 
 	 echo "<td class='select_date' style='table-layout:fixed;' align='left' valign='top'
 	 onclick='javascript:location.href=\"select_schedule.php?year=$year&month=$month&day=$day\"'>";
+	 
 	 if(!(($i==1 && $j< $start_day)||($i==$total_week && $j>$last_day))){
 		 
 		 if(strlen($day) == 1) $day = "0".$day;
@@ -112,14 +116,14 @@
 			 $style = 'red';
 		 }else if($j==6){
 			 $style = 'blue';
-		 }else if($j==1 || $j==3 || $j==5){
-			 $lunc = true;
 		 }else{
 			 $style = 'black';
 		 }
-		 if($year==$y && $month==$m && $day==date('j')){
+		 
+		 if($j==1 || $j==3 || $j==5){
+			 $lunc = true;
 		 }
-		 // 각 날짜마다 클릭해서 일정 확인 가능. 
+
 		 echo "<font color='$style' padding='3'>$day</font>";
 
 		 $today = "$year-$month-$day";
@@ -149,15 +153,69 @@
 	 }
 	 echo "</td>";
  }
-?>
-
- </tr>
-<?php
+ echo "</tr>";
 }
 ?>
+ <script>
+	var time = "<?php print(date('F d, Y H:i:s', time())); ?>";
+	var now = new Date(time);
+	var al_arr = new Array();
+
+	setInterval("Current_time()", 1000);
+
+ </script>
  </table>
 <!--  달력 아래에 일정 등록 버튼 -->
- <form action='insert_schedule.php' method='post'>
-  <input type='submit' value='Add Event' /></form>
+ <form action='insert_schedule.php'>
+  <input type='submit' value='Add Event' />
+ </form>
  
+ <div id='alarm_time'><?php echo date("Y-m-d H:i:s", time()); ?></div>
+ <div> Today Schedule Alarm : </div>
+<?php
+
+ $current_day = "$y-$m-$d";
+ $alarm_sql = "select schedule, a_date from schedules where '$current_day'=DATE(a_date);";
+ $a_rs = $db->execute($alarm_sql);
+ $k=0;
+ while(!$a_rs->EOF){
+	 echo "<p>".$k.". ".$a_rs->fields[0]."</p>";
+	echo "<script>
+		al_arr[$k] = '".$a_rs->fields[1]."'
+		</script>";
+	$k++;
+	$a_rs->moveNext();
+	
+	
+ }
+
+?>
 </div>
+<script>
+
+	function Current_time(){
+		now.setSeconds(now.getSeconds()+1);
+		var y = now.getFullYear();
+		var m = now.getMonth()+1;
+		var d = now.getDate();
+		var h = now.getHours();
+		var mi = now.getMinutes();
+		var s = now.getSeconds();
+
+		if(m<10){ m='0'+m;}
+		if(d<10){ d='0'+d;}
+		if(h<10){ h='0'+h;}
+		if(mi<10){ mi='0'+mi;}
+		if(s<10){ s='0'+s;}
+		
+		document.getElementById('alarm_time').innerHTML = y+'-'+m+'-'+d+' '+h+':'+mi+':'+s;
+		if(y+'-'+m+'-'+d+' '+h+':'+mi+':'+s == '2019-07-05 14:03:10'){
+			alert('alarm');
+		}
+		for(var i=0; i<al_arr.length; i++){
+			if(al_arr[i] == y+'-'+m+'-'+d+' '+h+':'+mi+':'+s){
+				alert([i]+'번째 alarm');
+			}
+		}
+	}
+</script>
