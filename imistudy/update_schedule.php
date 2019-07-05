@@ -48,6 +48,16 @@
 	 }
 	 return $date_time;
  }
+ function selectGroup($id, $db){
+	 $query = "select team_name from team where user_id='$id' group by team_name;";
+	 $option .= "<option>NULL</option>";
+	 $rs = $db->execute($query);
+	 while(!$rs->EOF){
+		 $option .= "<option value='".$rs->fields[0]."'>".$rs->fields[0]."</option>";
+		 $rs->moveNext();
+	 }
+	 return $option;
+ }
 ?>
 <style>
  #add_container{
@@ -71,7 +81,7 @@
  echo "<select name='s_m'>".selectMonth($month)."</select>";
  echo "<select name='s_d'>".selectDay($day, $max_date)."</select>";
  echo "<select name='s_t'>".selectTime(date('H'))."</select>";
- echo "</sapn>";
+ echo "</span>";
  
  echo "&nbsp; ~ &nbsp;";
 
@@ -101,10 +111,13 @@
 	 echo "<select id='ad' name='a_d' disabled>".selectDay(date('d'), $max_date)."</select>";
 	 echo "<select id='ah' name='a_t' disabled>".selectTime(date('H'))."</select>";
 	 echo "</span>";
+	 echo "</div>";
+	 echo "<div>";
+	 echo "Group : <select name='group'>".selectGroup($id, $db)."</select>";
+	 echo "</div>";
 ?>
-	</div>
 	<input type='submit' value='submit'> 
-</div>
+	</div>
 </form>
 </div>
  <script language= 'javascript'>

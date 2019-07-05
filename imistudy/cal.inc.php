@@ -7,6 +7,7 @@
 
  $pagename = basename($_SERVER['PHP_SELF']); 
 
+ $id='test';
  $y = date('Y');
  $m = date('m');
  $d = date('d');
@@ -97,6 +98,11 @@
  </script>
 <?php
  $day=1;
+ 
+ $go_y = $year;
+ $go_m = $month;
+ $go_d = $day;
+
  for($i=1; $i<=$total_week; $i++){
 ?> 
  <tr>
@@ -104,10 +110,7 @@
  $lunc = false;
  for($j=0; $j<7; $j++){
 	 
-	 // 각 날짜마다 클릭해서 일정 확인 가능. 
-	 echo "<td class='select_date' style='table-layout:fixed;' align='left' valign='top'
-	 onclick='javascript:location.href=\"select_schedule.php?year=$year&month=$month&day=$day\"'>";
-	 
+	 // 시작 요일부터 마지막 날까지 날짜를 기입한다.
 	 if(!(($i==1 && $j< $start_day)||($i==$total_week && $j>$last_day))){
 		 
 		 if(strlen($day) == 1) $day = "0".$day;
@@ -124,7 +127,7 @@
 			 $lunc = true;
 		 }
 
-		 echo "<font color='$style' padding='3'>$day</font>";
+		 $w_day = "<font color='$style' padding='3'>$day</font>";
 
 		 $today = "$year-$month-$day";
 		 
@@ -132,7 +135,7 @@
 		 if($lunc == true){
 			 $query = "select lunar_date from lunar_data where solar_date=".$year.$month.$day;
 			 $rs = $db->execute($query);
-			 echo "<br><font style='font-size:8; font-color:green;' class='luna' color='black' padding='4' align='left'>".$rs->fields[0]."</font>";
+			 $w_day .= "<br><font style='font-size:8;' class='luna' color='black' padding='4' align='left'>".$rs->fields[0]."</font>";
 			 $lunc = false;
 		 }
 
@@ -146,11 +149,47 @@
 			 die("failed");
 		 }
 		 else{
-			 echo "<br>".$ok->fields[0];
+			 $w_day .= "<br>".$ok->fields[0];
 		 }
 
-		 $day++;
+		$go_y = $year;
+		$go_m = $month;
+		$go_d = $day;
 	 }
+
+	 // 이전 달 날짜 표기
+	 else if($j < $start_day && $i==1){
+		$style='gray';
+		$prev_total_date = date('t', mktime(0,0,0, $prev_month, 1, $year));
+		$prev_d = $prev_total_date - $start_day + $j+1;
+
+		$w_day = "<font color='gray' padding='3'>".$prev_month.".".$prev_d."</font>";
+		
+		$go_y = $year;
+		$go_m = $prev_month;
+		$go_d = $prev_d;
+		if($month == 1) $go_y=$prev_year;
+	 }
+
+	 // 다음 달 날짜 표기
+	 else if($j > $last_day && $i==$total_week){
+		$style='gray';
+		$next_d = - $last_day + $j;
+
+		$w_day = "<font color='gray' padding='3'>".$next_month.".".$next_d."</font>";
+		
+		$go_y = $year;
+		$go_m = $next_month;
+		$go_d = $next_d;
+		if($month == 12) $go_y=$next_year;
+	 }
+
+	 // 각 날짜마다 클릭해서 일정 확인 가능. 
+	 echo "<td class='select_date' style='table-layout:fixed;' align='left' valign='top'
+	 onclick='javascript:location.href=\"select_schedule.php?year=$go_y&month=$go_m&day=$go_d\"'>";
+	 echo $w_day;
+
+		$day++;
 	 echo "</td>";
  }
  echo "</tr>";
@@ -165,6 +204,11 @@
 
  </script>
  </table>
+
+<?php 
+ include('view_group.php');
+ ?>
+
 <!--  달력 아래에 일정 등록 버튼 -->
  <form action='insert_schedule.php'>
   <input type='submit' value='Add Event' />
@@ -214,7 +258,7 @@
 		}
 		for(var i=0; i<al_arr.length; i++){
 			if(al_arr[i] == y+'-'+m+'-'+d+' '+h+':'+mi+':'+s){
-				alert([i]+'번째 alarm');
+				alert((i+1)+'번째 alarm');
 			}
 		}
 	}
