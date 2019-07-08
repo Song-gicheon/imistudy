@@ -1,3 +1,10 @@
+<!doctype html>
+<html>
+<head>
+ <meta charset="utf-8">
+ <title> 일정 추가 </title>
+</head>
+<body>
 <?php
  require('cal.inc.php');
 
@@ -16,7 +23,8 @@
 	 for($m=1; $m<=12; $m++){
 		 if(strlen($m) == 1) $m="0".$m;
 		 if($m == $cur){
-			$date_month .= "<option value='$m' selected>$m</option>";
+			$date_month .= "<option value=
+			'$m' selected>$m</option>";
 		 }else{
 			 $date_month .= "<option value='$m'>$m</option>";
 		 }
@@ -60,23 +68,20 @@
  }
 ?>
 <style>
- #add_container{
-  margin:30px;
-  padding:30px;
- }
  select{
   height:30px;
   width:60px;
  }
 </style>
- <div id='add_container' >
- <h1>Add Event</h1>
+<div id='add_container' class='schedule_box'>
+	<h1>Add Schedule</h1>
+	<div>
+		<p> Term </p>
 <?php
 
- $y = date('Y');
- $m = date('m');
- $d = date('d');
+ $sch_id = $_POST['sch_id'];
  echo "<form class='add_event' action='insert.php' method='post'>";
+ echo "<input type='hidden' name='sch_id' value='$sch_id'/>";
  echo "<span id='start_time' class='time_box'>";
  echo "<select name='s_y'>".selectYear('2015', '2050', date('Y'))."</select>";
  echo "<select name='s_m'>".selectMonth(date('m'))."</select>";
@@ -94,15 +99,18 @@
  echo "</span>";
 
 ?>
-<div>
+	</div>
 	<div>
+		<p>Schedule Name</p>
 		<input type='text' name='sche_name'/> 
 	</div>
 	<div>
+		<p>contents</p>
 		<textarea cols='60' rows'50' autofocus requiredwrap='hard'
 			placeholder='write.' name='in_schedule'></textarea>
 	</div>
 	<div id='alarm_set'>
+	<p>
 		<input type='checkbox' id='chk_alarm' value='alram' onClick="alarm_on()">Alarm
  
 		 <span id='alarm_time' class='time_box' name='alarm_box'>
@@ -114,11 +122,10 @@
 	 echo "</span>";
 	 echo "</div>";
 	 echo "<div>";
-	 echo "Group : <select name='group'>".selectGroup($id, $db)."</select>";
+	 echo "<p> Group : <select name='group'>".selectGroup($id, $db)."</select></p>";
 	 echo "</div>";
 ?>
 	<input type='submit' value='submit'> 
-	</div>
 </form>
 </div>
  <script language= 'javascript'>
@@ -141,3 +148,6 @@
 		 }
 	 }
  </script>
+
+ </body>
+ </html>

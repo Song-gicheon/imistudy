@@ -6,10 +6,10 @@
  $db->debug = true;
  $db->connect("localhost", "root", "Kdkdldpadkdl123$%^", "study");
  
- $id = 'test'; // ¼¼¼Ç ÀÌ¿ë.
+ $id = 'test'; // ì„¸ì…˜ ì´ìš©.
 
  $sch_id = $_POST['sch_id'];
- echo $_POST['sch_id'];
+
  $sql = "Delete from schedules where sch_id='$sch_id'";
 	 
 

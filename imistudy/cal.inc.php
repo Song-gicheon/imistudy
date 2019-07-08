@@ -60,11 +60,18 @@
  <style>
  .schedule_box{
 	float:right;
-	margin:20px;
+	margin:10px;
+	width:620px;
  }
  </style>
 
  <div id="calender" class="schedule_box">
+ 
+<!--  달력 위에 일정 등록 버튼 -->
+ <form action='insert_schedule.php'>
+  <input type='submit' value='Add Event' />
+ </form>
+ 
  <table class="table" style="table-layout:fixed; margin:10px;" border='2' height='500px' width='600px'>
  <tr align = "center" height='30'>
   <td> <!-- 이전 년으로  -->
@@ -135,7 +142,8 @@
 		 if($lunc == true){
 			 $query = "select lunar_date from lunar_data where solar_date=".$year.$month.$day;
 			 $rs = $db->execute($query);
-			 $w_day .= "<br><font style='font-size:8;' class='luna' color='black' padding='4' align='left'>".$rs->fields[0]."</font>";
+			 $w_day .= "<br><font style='font-size:8px;'
+			 class='luna' color='black' padding='4' align='left'>".$rs->fields[0]."</font>";
 			 $lunc = false;
 		 }
 
@@ -155,6 +163,7 @@
 		$go_y = $year;
 		$go_m = $month;
 		$go_d = $day;
+		$day++;
 	 }
 
 	 // 이전 달 날짜 표기
@@ -188,8 +197,7 @@
 	 echo "<td class='select_date' style='table-layout:fixed;' align='left' valign='top'
 	 onclick='javascript:location.href=\"select_schedule.php?year=$go_y&month=$go_m&day=$go_d\"'>";
 	 echo $w_day;
-
-		$day++;
+	
 	 echo "</td>";
  }
  echo "</tr>";
@@ -209,13 +217,7 @@
  include('view_group.php');
  ?>
 
-<!--  달력 아래에 일정 등록 버튼 -->
- <form action='insert_schedule.php'>
-  <input type='submit' value='Add Event' />
- </form>
- 
- <div id='alarm_time'><?php echo date("Y-m-d H:i:s", time()); ?></div>
- <div> Today Schedule Alarm : </div>
+ <p> Today Schedule Alarm : </p>
 <?php
 
  $current_day = "$y-$m-$d";
@@ -223,7 +225,7 @@
  $a_rs = $db->execute($alarm_sql);
  $k=0;
  while(!$a_rs->EOF){
-	 echo "<p>".$k.". ".$a_rs->fields[0]."</p>";
+	 echo "<p>".($k+1).". ".$a_rs->fields[0]." : ".$a_rs->fields[1]."</p>";
 	echo "<script>
 		al_arr[$k] = '".$a_rs->fields[1]."'
 		</script>";
@@ -252,13 +254,9 @@
 		if(mi<10){ mi='0'+mi;}
 		if(s<10){ s='0'+s;}
 		
-		document.getElementById('alarm_time').innerHTML = y+'-'+m+'-'+d+' '+h+':'+mi+':'+s;
-		if(y+'-'+m+'-'+d+' '+h+':'+mi+':'+s == '2019-07-05 14:03:10'){
-			alert('alarm');
-		}
 		for(var i=0; i<al_arr.length; i++){
 			if(al_arr[i] == y+'-'+m+'-'+d+' '+h+':'+mi+':'+s){
-				alert((i+1)+'번째 alarm');
+				alert('오늘의 '+(i+1)+'번째 alarm<br> 현재시간 : '+y+'-'+m+'-'+d+' '+h+':'+mi+':'+s);
 			}
 		}
 	}
