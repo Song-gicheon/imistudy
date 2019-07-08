@@ -11,9 +11,14 @@
  $team_id = $_GET['del'];
 
 
- $sql = "DELETE a, b FROM team a JOIN schedules b ON a.team_name=b.team and a.user_id=b.id 
-		WHERE a.team_name='$team_id' and a.user_id='$id';";
+ //$sql = "DELETE a, bFROM team a JOIN schedules b ON a.team_name=b.team and a.user_id=b.id WHERE a.team_name='$team_id' and a.user_id='$id';";
+
+ $sql = "DELETE FROM team WHERE team_name='$team_id' and user_id='$id';";
+
  $ok = $db->execute($sql);
- 
+
+ $sql = "DELETE FROM schedules WHERE team='$team_id' and id='$id';";
+
+ $ok = $db->execute($sql);
  Header("Location:select_schedule.php");
 ?>

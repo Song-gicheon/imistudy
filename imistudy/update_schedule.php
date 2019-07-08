@@ -8,6 +8,7 @@
 <?php
  require('cal.inc.php');
 
+// 각 연-월-일-시 그룹 select box 만드는 함수.
 
  function selectYear($start, $end, $cur=''){
 	 for($start; $start<$end+1; $start++){

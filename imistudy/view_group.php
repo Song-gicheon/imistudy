@@ -2,6 +2,7 @@
  <h3> Your Group </h3>
  <table style="table-layout:fixed; margin:20px;" height='30px' align='center'>
 <?php
+ // 현재 id의 그룹 목록.
  $sql = "select team_name from team where user_id='$id' group by team_name;";
 
  $result = $db->execute($sql);
