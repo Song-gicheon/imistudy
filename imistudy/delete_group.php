@@ -1,13 +1,13 @@
 <?php
  // 그룹 삭제 및 그룹 스케줄 같이 삭제
-	
+ session_start();
+ $id= $_SESSION['id'];
  include('../../adodb5/adodb.inc.php');
 
  $db = newADOConnection('mysqli');
  $db->debug = true;
  $db->connect("localhost", "root", "Kdkdldpadkdl123$%^", "study");
  
- $id = 'test'; // 세션 이용.
  $team_id = $_GET['del'];
 
 

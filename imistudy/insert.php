@@ -1,4 +1,6 @@
 <?php
+ session_start();
+ $id= $_SESSION['id'];
 
  include('../../adodb5/adodb.inc.php');
 
@@ -6,7 +8,6 @@
  $db->debug = true;
  $db->connect("localhost", "root", "Kdkdldpadkdl123$%^", "study");
  
- $id = 'test'; // 세션 이용.
 
  $schedules = $_POST['sche_name'];
  $s_date = $_POST['s_y'].$_POST['s_m'].$_POST['s_d'].$_POST['s_t']."0000";

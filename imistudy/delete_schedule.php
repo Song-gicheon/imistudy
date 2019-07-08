@@ -1,12 +1,12 @@
 <?php
-
+ session_start();
+ $id= $_SESSION['id'];
  include('../../adodb5/adodb.inc.php');
 
  $db = newADOConnection('mysqli');
  $db->debug = true;
  $db->connect("localhost", "root", "Kdkdldpadkdl123$%^", "study");
  
- $id = 'test'; // 세션 이용.
 
  $sch_id = $_POST['sch_id'];
 

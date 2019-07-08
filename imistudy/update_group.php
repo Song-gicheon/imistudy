@@ -1,13 +1,13 @@
 <?php
  // 그룹원 삭제 및 그룹원 추가.
-
+ session_start();
+ $id= $_SESSION['id'];
  include('../../adodb5/adodb.inc.php');
 
  $db = newADOConnection('mysqli');
  $db->debug = true;
  $db->connect("localhost", "root", "Kdkdldpadkdl123$%^", "study");
  
- $id = 'test'; // 세션 이용.
  $del_member = isset($_REQUEST['del'])?$_REQUEST['del']:NULL;
  $group = $_GET['team'];
  echo $del_member;

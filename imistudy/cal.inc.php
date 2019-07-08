@@ -1,4 +1,7 @@
 <?php
+ session_start();
+ $id= $_SESSION['id'];
+
 
  include('../../adodb5/adodb.inc.php');
  $db = newADOConnection('mysqli');
@@ -7,7 +10,6 @@
 
  $pagename = basename($_SERVER['PHP_SELF']); 
 
- $id='test';
  $y = date('Y');
  $m = date('m');
  $d = date('d');
