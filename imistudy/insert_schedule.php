@@ -58,7 +58,7 @@
 
  function selectGroup($id, $db){
 	 $query = "select team_name from team where user_id='$id' group by team_name;";
-	 $option .= "<option>NULL</option>";
+	 $option .= "<option value=NULL>-</option>";
 	 $rs = $db->execute($query);
 	 while(!$rs->EOF){
 		 $option .= "<option value='".$rs->fields[0]."'>".$rs->fields[0]."</option>";

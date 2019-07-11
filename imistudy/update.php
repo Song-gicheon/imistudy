@@ -6,7 +6,6 @@
  $db = newADOConnection('mysqli');
  $db->debug = true;
  $db->connect("localhost", "root", "Kdkdldpadkdl123$%^", "study");
- 
 
  $sch_id = $_POST['sch_id'];
  $schedules = $_POST['sche_name'];
@@ -15,6 +14,7 @@
  $t_name = $_POST['in_schedule'];
  $team= $_POST['group'];
  $alarm = $_POST['a_y'];
+
  $sql='';
  if($alarm != NULL){
  	$a_date = $_POST['a_y'].$_POST['a_m'].$_POST['a_d'].$_POST['a_t']."0000";

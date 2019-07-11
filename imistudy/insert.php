@@ -28,6 +28,6 @@
  $ok = $db->execute($sql);
  
 
- Header("Location:select_schedule.php?year=".$_POST['s_y']."&month=".$_POST['s_m']."&day=".$_POST['s_d']);
+// Header("Location:select_schedule.php?year=".$_POST['s_y']."&month=".$_POST['s_m']."&day=".$_POST['s_d']);
 ?>
  
