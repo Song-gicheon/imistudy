@@ -72,7 +72,7 @@
 
 	// include 경로는 절대 경로로 맞춰준다.
 	// DB = $db;
-	include($_SERVER['DOCUMENT_ROOT']."/dev_test/schedule_2/connect.inc.php");
+	include($_SERVER['DOCUMENT_ROOT']."/imistudy/schedule_2/connect.inc.php");
 
 	//기본 연월. 만약 get 변수가 존재한다면, 바꿔준다.
 	$year_month = date('Y-m');

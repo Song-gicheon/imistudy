@@ -2,7 +2,7 @@
 
 	// include 경로는 절대 경로로 맞춰준다.
 	// DB = $db;
-	include($_SERVER['DOCUMENT_ROOT']."/dev_test/schedule_2/connect.inc.php");
+	include($_SERVER['DOCUMENT_ROOT']."/imistudy/schedule_2/connect.inc.php");
 
 	$schedule_id = $_REQUEST['s_id'];
 

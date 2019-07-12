@@ -14,7 +14,7 @@
 </head>
 <body>
 <?php
-	include($_SERVER['DOCUMENT_ROOT']."/dev_test/schedule_2/cal.inc.php");
+	include($_SERVER['DOCUMENT_ROOT']."/imistudy/schedule_2/cal.inc.php");
 
 	// cal.inc.php 에서 이미 불러온 일정에서 선택한 날짜의 일정만을 추려내서 출력한다.
 	// $year_month > 선택 연월, $this_date > 선택 일

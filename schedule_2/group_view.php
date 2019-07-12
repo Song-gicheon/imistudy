@@ -18,7 +18,7 @@
 
 	// include 경로는 절대 경로로 맞춰준다.
 	// DB = $db;
-	include($_SERVER['DOCUMENT_ROOT']."/dev_test/schedule_2/cal.inc.php");
+	include($_SERVER['DOCUMENT_ROOT']."/imistudy/schedule_2/cal.inc.php");
 
 	$group_id = $_GET['team_id'];
 	$group_name = $_GET['team_name'];
@@ -30,7 +30,7 @@
 	echo "<div class='schedule_box'>";
 	echo "<h1>'".$group_name."' Group</h1>";
 	echo "<div>";
-	echo "<h3>$group Member</h3>";
+	echo "<h3>Member</h3>";
 	echo "<table style='table-layout:fixed; margin-bottom:20px;' height='30px'>";
 
 	while(!$rs->EOF)

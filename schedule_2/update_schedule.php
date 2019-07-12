@@ -32,7 +32,7 @@
 
 	// include 경로는 절대 경로로 맞춰준다.
 	// DB = $db;
-	include($_SERVER['DOCUMENT_ROOT']."/dev_test/schedule_2/connect.inc.php");
+	include($_SERVER['DOCUMENT_ROOT']."/imistudy/schedule_2/connect.inc.php");
 
 
 	// 각 년-월-일-시, 그룹에 대해 Select Box를 만들어주는 함수 선언.

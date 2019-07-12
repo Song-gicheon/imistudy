@@ -2,7 +2,7 @@
 <?php
 	// include 경로는 절대 경로로 맞춰준다.
 	// DB = $db;
-	include($_SERVER['DOCUMENT_ROOT']."/dev_test/schedule_2/connect.inc.php");
+	include($_SERVER['DOCUMENT_ROOT']."/imistudy/schedule_2/connect.inc.php");
 
 	// Post로 받은 값들 : 선택 일정 ID, 일정 이름, 시작, 끝, 내용, 알람, 그룹
 	$schedule_id= $_POST['s_id'];
