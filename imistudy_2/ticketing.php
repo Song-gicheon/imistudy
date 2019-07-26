@@ -94,8 +94,15 @@
 		die('commit error');
 	}
 
+	
+	unset($pay_rs);
+	unset($rs_ticket);
+	unset($rs);
+	unset($cmt);
+
 	// 왕복이라면 다시 버스 시간표 화면으로 돌아간다.
 	// 이때, 도착지와 출발지가 바뀌어야 한다.
+
 	echo $bus_rd;
 	if($bus_rd == 2){
 		$sql = "SELECT race_id, price From race WHERE (start, end) IN(SELECT end, start FROM race WHERE race_id=(SELECT race_id FROM bus WHERE bus_id = ".$bus_ch."));";
@@ -103,6 +110,7 @@
 		if($rs == false){
 			die('왕복');
 		}
+		unset($rs);
 		echo "<script>back_bus(".$rs->fields['race_id'].", ".$rs->fields['price'].");</script>";
 		
 	}

@@ -24,7 +24,6 @@
 		width:50px;
 		height:40px;
 		margin:5px;
-		padding:5px;
 		font-size:20;
 		text-align:center;
 	}
@@ -114,6 +113,9 @@
 		$sltd[] = $rs->fields['seat_num'];
 		$rs->moveNext();
 	}
+
+	unset($rs_valid);
+	unset($rs);
 
 	$_POST['title'] = "좌 석 선 택";
 	include("menu.inc.php"); 

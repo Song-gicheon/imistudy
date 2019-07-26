@@ -24,5 +24,6 @@
 		}
 	}
 				
+	unset($result);
 
 ?>

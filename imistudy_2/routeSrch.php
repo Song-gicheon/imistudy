@@ -36,6 +36,7 @@
 		return $option;
 	}
 	
+	unset($rs);
 	// 만약 선택 시간이 현재 시간보다 빠른 경우를 검증해야함.
 ?>
 <!DOCTYPE HTML>
