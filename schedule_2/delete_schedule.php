@@ -4,7 +4,9 @@
 	// DB = $db;
 	include($_SERVER['DOCUMENT_ROOT']."/imistudy/schedule_2/connect.inc.php");
 
-	$schedule_id = $_REQUEST['s_id'];
+	$schedule_id = $_POST['s_id'];
+	// 전송받은 데이터 검증과정 필요
+
 
 	// Delete 하기 전에 삭제할 데이터가 존재하는지 미리 검색
 	$sql	= "Select id from schedules where id='".$schedule_id."'";

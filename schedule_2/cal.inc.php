@@ -1,4 +1,8 @@
 <!-- 전체 페이지에 들어가는 달력을 구현하는 코드.-->
+<?php
+	$_POST['title'] = "일 정 표";
+	include($_SERVER['DOCUMENT_ROOT']."/imistudy/imistudy_2/menu.inc.php"); 
+?>
 <script src='https://code.jquery.com/jquery-1.10.2.js'></script>
 <script>
 	var time = "<?php echo date('F d, Y H:i:s', time()); ?>";
@@ -69,6 +73,8 @@
  }
 </style>
 <?php
+
+	$pagename = basename($_SERVER['PHP_SELF']); 
 
 	// include 경로는 절대 경로로 맞춰준다.
 	// DB = $db;
@@ -162,19 +168,19 @@
 <table class="table">
 	<tr class="move">
 		<td><!-- 1년 이전 -->
-		<a href="select_schedule.php?m=<?php echo $prev_year; ?>&d=<?php echo $this_date; ?>">◀◀</a>
+		<a href="<?php echo $pagename."?m=".$prev_year."&d=".$this_date; ?>">◀◀</a>
 		</td>
 		<td><!-- 1달 이전 -->
-		<a href="select_schedule.php?m=<?php echo $prev_month; ?>&d=<?php echo $this_date; ?>">◀</a>
+		<a href="<?php echo $pagename."?m=".$prev_month."&d=".$this_date; ?>">◀</a>
 		</td>
 		<td colspan="3"><!--선택 연월 -->
-		<a href="select_schedule.php"><?php echo $year_month; ?></a>
+		<a href="<?php echo $pagename; ?>"><?php echo $year_month; ?></a>
 		</td>
 		<td><!-- 1달 이후 -->
-		<a href="select_schedule.php?m=<?php echo $next_month; ?>&d=<?php echo $this_date; ?>">▶</a>
+		<a href="<?php echo $pagename."?m=".$next_month."&d=".$this_date; ?>">▶</a>
 		</td>
 		<td><!-- 1년 이후 -->
-		<a href="select_schedule.php?m=<?php echo $next_year; ?>&d=<?php echo $this_date; ?>">▶▶</a>
+		<a href="<?php echo $pagename."?m=".$next_year."&d=".$this_date; ?>">▶▶</a>
 		</td>
 	</tr>
 	<tr>
@@ -262,7 +268,7 @@
 				$print_day = "<font class='days' color='gray'>".$next_date."</font>";
 
 			}
-			echo "<td class='selectDate' onclick='javascript:location.href=\"select_schedule.php?m=".$go_m."&d=".$go_d."\"'>";
+			echo "<td class='selectDate' onclick='javascript:location.href=\"".$pagename."?m=".$go_m."&d=".$go_d."\"'>";
 			echo $print_day;
 			echo "</td>";
 		}
