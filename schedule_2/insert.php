@@ -8,6 +8,16 @@
 	}
 </script>
 <?php
+
+	// 세션 연결
+	session_start();
+	$url = ($_SERVER['HTTPS'] == 'on')?'https://':'http://';
+	$url .= ($_SERVER['SERVER_PORT'] != '80')?$_SERVER['HTTP_HOST'].':'.$_SERVER['SERVER_PORT']:$_SERVER['HTTP_HOST']; 
+	// 세션이 연결되지 않았다면
+	if(!isset($_SESSION['id'])){
+		echo "<script> location.href='".$url."/imistudy/imistudy_2/index.php'; </script>";
+	}
+
 	// include 경로는 절대 경로로 맞춰준다.
 	// DB = $db;
 	include($_SERVER['DOCUMENT_ROOT']."/imistudy/schedule_2/connect.inc.php");
@@ -23,7 +33,7 @@
 	}
 
 	// SELECT를 이용해서 이미 사용되는 일정 이름인지 확인합니다.
-	$sql	= "SELECT name FROM schedules WHERE name='".$s_name."';";
+	$sql	= "SELECT name FROM schedules WHERE name='".$s_name."' AND user_id='".$_SESSEION['id']."';";
 	$rs		= $db->execute($sql);
 
 	// 1차 쿼리문 에러 처리
@@ -39,7 +49,7 @@
 	// 일정 이름과 기간이 동일한 경우에는 이미 존재하는 일정으로 생각하여
 	// 일정이 추가되지 않도록 합니다.
 	$sql = "INSERT IGNORE INTO schedules VALUES
-	('', '".$s_name."', ".$start.", ".$end.", '".$in_plan."', '".$alarm."', ".$team.");";
+	('', '".$s_name."', ".$start.", ".$end.", '".$in_plan."', '".$alarm."', ".$team.", '".$_SESSION['id']."');";
 	
 	$ok = $db->execute($sql);
 	

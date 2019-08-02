@@ -43,11 +43,27 @@
 			";
 	}
 	
-	// 해당 티켓 가격의 90% 만큼 사용자의 결제 금액을 반환하고
-	$sql = "UPDATE user SET money = money - (0.9*(SELECT payment FROM ticket WHERE ticket_id = ".$ticket.")) WHERE id = '".$_SESSION['id']."';";
-	$rs = $db->execute($sql);
+	// 해당 티켓 가격의 90% 만큼 사용자의 결제 금액을 반환하기 위해서 락을 걸고 업데이트 한다.
+	$sql = "SELECT money FROM user WHERE id='".$_SESSION_['id']."' FOR UPDATE;";
+	$rs  = $db->execute($sql);
+	if($rs == false || $rs->EOF){
+		die('조회 실패');
+	}
+	$cu_money = $rs->fields['money']; // 현재 사용자 총 결제 금액
 
-	
+	$sql = "SELECT payment FROM ticket WHERE ticket_id = ".$ticket.";";
+	$rs  = $db->execute($sql);
+	if($rs == false || $rs->EOF){
+		die('티켓 조회 실패');
+	}
+	$ti_money = $rs->fields['payment']; // 예매했던 티켓 가격
+
+	$rs_money = $cu_money - ($ti_money*0.9);
+
+	// 유저테이블에 계산된 값을 입력하며 업데이트 한다.
+	$sql = "UPDATE user SET money = ".$rs_money." WHERE id = '".$_SESSION['id']."';";
+	$rs  = $db->execute($sql);
+
 	if($rs == false || $db->affected_rows() < 1){
 		die('환불 실패');
 	}

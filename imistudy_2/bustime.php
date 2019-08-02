@@ -2,9 +2,11 @@
 <?php
 	// 세션 연결
 	session_start();
+	$url = ($_SERVER['HTTPS'] == 'on')?'https://':'http://';
+	$url .= ($_SERVER['SERVER_PORT'] != '80')?$_SERVER['HTTP_HOST'].':'.$_SERVER['SERVER_PORT']:$_SERVER['HTTP_HOST']; 
 	// 세션이 연결되지 않았다면
 	if(!isset($_SESSION['id'])){
-		echo "<script> location.href='index.php'; </script>";
+		echo "<script> location.href='".$url."index.php'; </script>";
 	}
 
 	include($_SERVER['DOCUMENT_ROOT']."/imistudy/imistudy_2/DBcon.inc.php");
@@ -94,39 +96,6 @@
 	$first_price	= $rot_pr * 1.5;
 	$premium_price	= $rot_pr * 2;
 
-	// 조회한 운행 정보의 ID를 이용해서 선택된 노선에 대한 모든 정보와, 선택 시간값을 받게 된다.
-	// 이 값을 이용해서 해당 노선에 배차된 버스들의 데이터를 전부 가져온다.
-	$sql = "SELECT * from bus WHERE race_id=".$rot_ch." and time > '".date('Y-m-d H:i:s')."' order by time;";
-
-	$rs = $db->execute($sql);
-
-	if($rs == false){
-		die("버스 시간표 연결 실패");
-	}
-
-	// 불러온 버스 배차 시간 데이터를 모두 저장한다.
-	while(!$rs->EOF){
-		$busTime[] = array(
-			'busID'		=> $rs->fields['bus_id'],
-			'busGR'		=> $rs->fields['stat'],
-			'busTI'		=> $rs->fields['time'],
-			'rotID'		=> $rs->fields['race_id']
-			);
-
-		$rs->moveNext();
-		
-	}
-	unset($rs);
-
-	// 불러온 데이터 중에서 선택 일자의 버스 시간표만 걸러서 보여준다. 
-	// 현재 페이지에서 다른 날짜를 재선택하면, 리다이렉트되어 선택 날짜의 버스 시간표를 보여주도록 한다. datepicker 사용
-	
-
-	// 버스 시간표는 table 형식으로 구성되며, 원하는 시간 선택시 해당 버스 예매 페이지로 이동.
-	// imistudy/schedule_2/cal.inc.php 파일 가져와서 날짜 변환에 활용한다.
-	
-	// 버스, 버스 등급, 개당운임료 및 총 운임료 를 전달함.
-	// 전송할 데이터 : BUS_ID, BUS_STATE, TICKET_PRICE(= RACE_PRICE * BUS_STATE(x))
 
 ?>
 	<div id='main'>
@@ -147,6 +116,55 @@
 		<th width='220px'>요금</th>
 		</tr>
 <?php	
+
+	// 조회한 운행 정보의 ID를 이용해서 선택된 노선에 대한 모든 정보와, 선택 시간값을 받게 된다.
+	// 이 값을 이용해서 선택 날짜에 해당 노선에 배차된 버스들의 데이터를 가져온다.
+	$sql = "SELECT bus_id, stat, time from bus WHERE race_id=".$rot_ch." and time > '".date('Y-m-d H:i:s')."' and time > '".date('Y-m-d', strtotime($date))."' and time < '".date('Y-m-d', strtotime($date.'+1 day'))."'  order by time;";
+
+	$rs = $db->execute($sql);
+
+	if($rs == false){
+		die("버스 시간표 연결 실패");
+	}
+
+	// 불러온 버스 배차 시간 데이터를 모두 저장한다.
+
+
+	while(!$rs->EOF){
+		/*
+		$busTime[] = array(
+			'busID'		=> $rs->fields['bus_id'],
+			'busGR'		=> $rs->fields['stat'],
+			'busTI'		=> $rs->fields['time']
+			);
+		*/
+		
+		if(date("Y-m-d", strtotime($rs->fields['time'])) == $date){
+			echo "<tr class='tag' onclick='Choice_bus(".$rs->fields['bus_id'].", ".$rs->fields['stat'].");'>";
+			echo "<td>".date("H:i", strtotime($rs->fields['time']))."</td>";
+			switch( $rs->fields['stat']){
+				case 1:
+					echo "<td>일반</td>";
+					echo "<td>".$rot_pr."원</td>";
+					break;
+				case 2:
+					echo "<td>우등</td>";
+					echo "<td>".$first_price."원</td>";
+					break;
+				case 3:
+					echo "<td>프리미엄</td>";
+					echo "<td>".$premium_price."원</td>";
+					break;
+				default:
+					echo "<td>--------</td>";
+			}
+			echo "</tr>";
+		}
+
+		$rs->moveNext();
+		
+	}
+	/*
 	foreach($busTime as $value){
 		if(date("Y-m-d", strtotime($value['busTI'])) == $date){
 			echo "<tr class='tag' onclick='Choice_bus(".$value['busID'].", ".$value['busGR'].");'>";
@@ -170,6 +188,9 @@
 			echo "</tr>";
 		}
 	}
+	*/
+	unset($rs);
+
 ?>
 	</table>
 	<form id='form' action='sltSeat.php' method='POST'>

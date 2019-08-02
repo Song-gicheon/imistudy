@@ -3,20 +3,22 @@
 
 	$user_id	= $_POST['id'];
 	
-	$today		= $_POST['date']; // 오늘 날짜가 주어진 경우
+	$today		= $_POST['date']; // 조회할 날짜가 정해진 경우 값이 들어옴.
 
+	echo $today;
 	include($_SERVER['DOCUMENT_ROOT']."/imistudy/imistudy_2/DBcon.inc.php");
 
 	$sql_ticket	=	"SELECT bus.stat, bus.time, race.start, race.end, race.race_time, ticket.seat_num, ticket.ticketing_time, ticket.payment, ticket.ticket_id
 					 FROM bus JOIN race ON bus.race_id=race.race_id JOIN ticket ON bus.bus_id=ticket.bus_id 
-					 WHERE ticket.user_id='".$user_id."' order by ticket.ticketing_time desc;";
+					 WHERE ticket.user_id='".$user_id."' AND bus.time >= '".date('Y-m-d H:i:s', strtotime($today))."' AND bus.time <'".date('Y-m-d H:i:s', strtotime($today.'+1 day'))."'
+					 order by ticket.ticketing_time desc;";
 	$rs_ticket = $db->execute($sql_ticket);
 	
 	if($rs_ticket == false || $rs_ticket->EOF){
 		echo "예매 내역이 없습니다.";
 		return;
 	}
-	// 일단은 전부 담아두고, 조건이 없을시에는 전부 출력한다.
+	// 일단은 전부 담아두고x 전부 담지 말고 조건에 따라서만 담아 준다. 조건이 없을시에는 전부 출력한다.
 	// 조건이 주어지면 조건에 따라서 출력한다.
 	// 또한 현재 시간과 도착 시간을 비교해서 예매 취소 여부를 결정한다.
 	echo "예 매 내 역";
@@ -54,6 +56,7 @@
 		echo "	</td>";
 		echo "</tr>";
 
+		echo "<tr><td>좌석 번호 : ".$rs_ticket->fields['seat_num']." 번</td></tr>";
 
 		echo "<tr class='city'>";
 		echo "	<td> 출발지 </td>";

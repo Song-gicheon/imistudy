@@ -1,5 +1,14 @@
 <!-- 전체 페이지에 들어가는 달력을 구현하는 코드.-->
-<?php
+<?php	
+	// 세션 연결
+	session_start();
+	$url = ($_SERVER['HTTPS'] == 'on')?'https://':'http://';
+	$url .= ($_SERVER['SERVER_PORT'] != '80')?$_SERVER['HTTP_HOST'].':'.$_SERVER['SERVER_PORT']:$_SERVER['HTTP_HOST']; 
+	// 세션이 연결되지 않았다면
+	if(!isset($_SESSION['id'])){
+		echo "<script> location.href='".$url."/imistudy/imistudy_2/index.php'</script>";
+	}
+
 	$_POST['title'] = "일 정 표";
 	include($_SERVER['DOCUMENT_ROOT']."/imistudy/imistudy_2/menu.inc.php"); 
 ?>
@@ -107,9 +116,10 @@
 	
 	$sql = "SELECT A.id, A.name, A.s_date, A.e_date, A.content, A.a_date, A.group_id, IFNULL(B.name, '없음') AS group_name
 			FROM schedules A LEFT OUTER JOIN group_tb B ON A.group_id = B.id
-			WHERE A.s_date >= '".$year_month."-01 00:00:00' 
+			WHERE A.user_id = '".$_SESSION['id']."' 
+			AND (A.s_date >= '".$year_month."-01 00:00:00' 
 			OR A.e_date <= '".$year_month."-".$max_date." 24:00:00' 
-			OR (A.s_date < '".$year_month."-01 00:00:00' AND A.e_date > '".$year_month."-".$max_date." 24:00:00');";
+			OR (A.s_date < '".$year_month."-01 00:00:00' AND A.e_date > '".$year_month."-".$max_date." 24:00:00'));";
 	
 	$rs = $db->execute($sql);
 	if($rs == false){

@@ -9,7 +9,7 @@
 
 	include($_SERVER['DOCUMENT_ROOT']."/imistudy/imistudy_2/DBcon.inc.php");
 
-	$db->execute("start transaction;"); // 여기서는 의미 없지만 통계 추정 테이블 이용시에 의미있음.
+	$db->execute("start transaction;"); // 여기서는 의미 없지만 다른 테이블과 함께 이용시에 의미있음.
 
 	$sql = "INSERT INTO user VALUES('".$member_id."', '".$member_pw."', '".$member_name."', 0, ".$member_age.", ".$member_gender.");";
 	$rs = $db->execute($sql);

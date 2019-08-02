@@ -101,9 +101,10 @@
 	
 	$sql = "SELECT A.id, A.name, A.s_date, A.e_date, A.content, A.a_date, A.group_id, IFNULL(B.name, '없음') AS group_name
 			FROM schedules A LEFT OUTER JOIN group_tb B ON A.group_id = B.id
-			WHERE A.s_date >= '".$year_month."-01 00:00:00' 
+			WHERE A.user_id = '".$_SESSION['id']."' 
+			AND (A.s_date >= '".$year_month."-01 00:00:00' 
 			OR A.e_date <= '".$year_month."-".$max_date." 24:00:00' 
-			OR (A.s_date < '".$year_month."-01 00:00:00' AND A.e_date > '".$year_month."-".$max_date." 24:00:00');";
+			OR (A.s_date < '".$year_month."-01 00:00:00' AND A.e_date > '".$year_month."-".$max_date." 24:00:00'));";
 	
 	$rs = $db->execute($sql);
 	if($rs == false){

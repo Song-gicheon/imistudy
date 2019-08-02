@@ -1,3 +1,14 @@
+<?php
+	// 세션 연결
+	session_start();
+	$url = ($_SERVER['HTTPS'] == 'on')?'https://':'http://';
+	$url .= ($_SERVER['SERVER_PORT'] != '80')?$_SERVER['HTTP_HOST'].':'.$_SERVER['SERVER_PORT']:$_SERVER['HTTP_HOST']; 
+	// 세션이 연결되지 않았다면
+	if(!isset($_SESSION['id'])){
+		echo "<script> location.href='".$url."/imistudy/imistudy_2/index.php'; </script>";
+	}
+?>
+
 <!doctype html>
 <html>
 <head>
